@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Panel - Pagla Rental</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#0b0b12;
+    color:white;
+}
+
+.container{
+    width:94%;
+    max-width:1100px;
+    margin:auto;
+}
+
+header{
+    padding:25px 0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+}
+
+h1{
+    margin:0;
+    font-size:25px;
+}
+
+h2{
+    margin-top:0;
+}
+
+.card{
+    background:#171722;
+    border:1px solid #2c2c3a;
+    border-radius:18px;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+input,
+textarea,
+select{
+    width:100%;
+    padding:13px;
+    margin:7px 0 14px;
+    border-radius:10px;
+    border:1px solid #3b3b4a;
+    background:#0f0f18;
+    color:white;
+    font-size:15px;
+}
+
+textarea{
+    min-height:90px;
+    resize:vertical;
+}
+
+button{
+    border:0;
+    padding:12px 18px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+    font-size:14px;
+}
+
+.primary{
+    background:#ff4d7d;
+    color:white;
+}
+
+.secondary{
+    background:#30303d;
+    color:white;
+}
+
+.danger{
+    background:#d93636;
+    color:white;
+}
+
+.logout{
+    background:#30303d;
+    color:white;
+}
+
+.hidden{
+    display:none !important;
+}
+
+.message{
+    padding:12px;
+    border-radius:10px;
+    margin:10px 0;
+    background:#242438;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:15px;
+}
+
+.friend{
+    background:#20202c;
+    border-radius:15px;
+    overflow:hidden;
+}
+
+.friend img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    background:#111;
+}
+
+.friend-content{
+    padding:15px;
+}
+
+.friend-content h3{
+    margin:0 0 7px;
+}
+
+.price{
+    font-size:20px;
+    font-weight:bold;
+    color:#ff6f96;
+}
+
+.available{
+    color:#63e6a0;
+}
+
+.unavailable{
+    color:#ff7070;
+}
+
+.order{
+    background:#20202c;
+    border-radius:15px;
+    padding:16px;
+    margin-bottom:12px;
+    border:1px solid #2d2d3b;
+}
+
+.order strong{
+    color:#ff7599;
+}
+
+.order-row{
+    margin:8px 0;
+    word-break:break-word;
+    line-height:1.5;
+}
+
+.order-divider{
+    height:1px;
+    background:#343442;
+    margin:13px 0;
+}
+
+.order-contact{
+    background:#171722;
+    padding:12px;
+    border-radius:10px;
+    margin-top:10px;
+}
+
+.status{
+    display:inline-block;
+    padding:5px 10px;
+    border-radius:20px;
+    background:#163c2a;
+    color:#63e6a0;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.preview{
+    width:120px;
+    height:120px;
+    object-fit:cover;
+    border-radius:12px;
+    display:none;
+    margin-bottom:10px;
+}
+
+.admin-note{
+    color:#999;
+    font-size:13px;
+    margin-top:6px;
+}
+
+.section-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.order-count{
+    color:#aaa;
+    font-size:13px;
+}
+
+.order-actions{
+    display:flex;
+    justify-content:flex-end;
+    margin-top:15px;
+}
+
+.delete-order{
+    background:#d93636;
+    color:white;
+    padding:10px 15px;
+}
+
+@media(max-width:600px){
+
+    header{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    h1{
+        font-size:22px;
+    }
+
+    .friend img{
+        height:250px;
+    }
+
+    .card{
+        padding:16px;
+    }
+
+    .section-top{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .order-actions{
+        justify-content:stretch;
+    }
+
+    .delete-order{
+        width:100%;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+<!-- =========================
+     LOGIN
+========================= -->
+
+<div
+    id="loginPage"
+    class="card"
+    style="max-width:450px;margin:80px auto;"
+>
+
+    <h1>🔐 Admin Login</h1>
+
+    <p>
+        Pagla Rental Admin Panel
+    </p>
+
+    <input
+        type="email"
+        id="loginEmail"
+        placeholder="Admin Email"
+        autocomplete="email"
+    >
+
+    <input
+        type="password"
+        id="loginPassword"
+        placeholder="Password"
+        autocomplete="current-password"
+    >
+
+    <button
+        class="primary"
+        onclick="login()"
+    >
+        Login
+    </button>
+
+    <div id="loginMessage"></div>
+
+</div>
+
+
+
+<!-- =========================
+     DASHBOARD
+========================= -->
+
+<div
+    id="dashboard"
+    class="hidden"
+>
+
+<header>
+
+    <div>
+
+        <h1>
+            👑 Pagla Rental Admin
+        </h1>
+
+        <small>
+            Friend & Order Management
+        </small>
+
+    </div>
+
+    <button
+        class="logout"
+        onclick="logout()"
+    >
+        Logout
+    </button>
+
+</header>
+
+
+
+<!-- =========================
+     ADD FRIEND
+========================= -->
+
+<div class="card">
+
+    <h2>
+        ➕ Add New Friend
+    </h2>
+
+    <input
+        type="text"
+        id="friendName"
+        placeholder="Friend Name"
+    >
+
+    <textarea
+        id="friendDescription"
+        placeholder="Description"
+    ></textarea>
+
+    <input
+        type="number"
+        id="friendRent"
+        placeholder="Daily Rent ₹"
+        min="0"
+    >
+
+    <label>
+        Friend Photo
+    </label>
+
+    <input
+        type="file"
+        id="friendImage"
+        accept="image/*"
+        onchange="previewImage()"
+    >
+
+    <img
+        id="imagePreview"
+        class="preview"
+        alt=""
+    >
+
+    <label>
+
+        <input
+            type="checkbox"
+            id="friendAvailable"
+            checked
+            style="width:auto;margin-right:8px;"
+        >
+
+        Available
+
+    </label>
+
+    <br><br>
+
+    <button
+        class="primary"
+        onclick="addFriend()"
+    >
+        Add Friend
+    </button>
+
+    <div id="friendMessage"></div>
+
+</div>
+
+
+
+<!-- =========================
+     FRIEND LIST
+========================= -->
+
+<div class="card">
+
+    <div class="section-top">
+
+        <div>
+
+            <h2>
+                👥 Friends
+            </h2>
+
+            <div class="admin-note">
+                Manage friends shown on the website
+            </div>
+
+        </div>
+
+        <button
+            class="secondary"
+            onclick="loadFriends()"
+        >
+            🔄 Refresh
+        </button>
+
+    </div>
+
+    <div id="friendsList">
+        Loading...
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     ORDERS
+========================= -->
+
+<div class="card">
+
+    <div class="section-top">
+
+        <div>
+
+            <h2>
+                📦 Customer Orders
+            </h2>
+
+            <div
+                id="orderCount"
+                class="order-count"
+            >
+                Loading...
+            </div>
+
+        </div>
+
+        <button
+            class="secondary"
+            onclick="loadOrders()"
+        >
+            🔄 Refresh Orders
+        </button>
+
+    </div>
+
+    <div id="ordersList">
+        Loading...
+    </div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<script>
+
+
+/* =========================
+   SUPABASE CONNECTION
+========================= */
+
+const SUPABASE_URL =
+"https://quxcffxedbtalomxwykn.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_38W9IV6gs6r7D_jWuS6okw_hG-Aei-F";
+
+const supabaseClient =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+);
+
+
+
+/* =========================
+   LOGIN
+========================= */
+
+async function login(){
+
+    const email =
+        document
+        .getElementById("loginEmail")
+        .value
+        .trim();
+
+    const password =
+        document
+        .getElementById("loginPassword")
+        .value;
+
+    const message =
+        document
+        .getElementById("loginMessage");
+
+    if(!email || !password){
+
+        message.innerHTML = `
+            <div class="message">
+                ❌ Email এবং Password দাও।
+            </div>
+        `;
+
+        return;
+    }
+
+    message.innerHTML = `
+        <div class="message">
+            🔐 Logging in...
+        </div>
+    `;
+
+    const { error } =
+        await supabaseClient
+        .auth
+        .signInWithPassword({
+
+            email:email,
+            password:password
+
+        });
+
+    if(error){
+
+        console.error(error);
+
+        message.innerHTML = `
+            <div class="message">
+                ❌ Login failed:
+                ${escapeHTML(error.message)}
+            </div>
+        `;
+
+        return;
+    }
+
+    showDashboard();
+
+}
+
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+async function logout(){
+
+    await supabaseClient
+        .auth
+        .signOut();
+
+    document
+        .getElementById("dashboard")
+        .classList
+        .add("hidden");
+
+    document
+        .getElementById("loginPage")
+        .classList
+        .remove("hidden");
+
+    document
+        .getElementById("loginEmail")
+        .value = "";
+
+    document
+        .getElementById("loginPassword")
+        .value = "";
+
+}
+
+
+
+/* =========================
+   CHECK LOGIN SESSION
+========================= */
+
+async function checkLogin(){
+
+    const { data } =
+        await supabaseClient
+        .auth
+        .getSession();
+
+    if(data.session){
+
+        showDashboard();
+
+    }else{
+
+        document
+            .getElementById("loginPage")
+            .classList
+            .remove("hidden");
+
+    }
+
+}
+
+
+
+/* =========================
+   SHOW DASHBOARD
+========================= */
+
+function showDashboard(){
+
+    document
+        .getElementById("loginPage")
+        .classList
+        .add("hidden");
+
+    document
+        .getElementById("dashboard")
+        .classList
+        .remove("hidden");
+
+    loadFriends();
+
+    loadOrders();
+
+}
+
+
+
+/* =========================
+   IMAGE PREVIEW
+========================= */
+
+function previewImage(){
+
+    const file =
+        document
+        .getElementById("friendImage")
+        .files[0];
+
+    const preview =
+        document
+        .getElementById("imagePreview");
+
+    if(!file){
+
+        preview.style.display =
+            "none";
+
+        return;
+    }
+
+    preview.src =
+        URL.createObjectURL(file);
+
+    preview.style.display =
+        "block";
+
+}
+
+
+
+/* =========================
+   ADD FRIEND
+========================= */
+
+async function addFriend(){
+
+    const name =
+        document
+        .getElementById("friendName")
+        .value
+        .trim();
+
+    const description =
+        document
+        .getElementById("friendDescription")
+        .value
+        .trim();
+
+    const rent =
+        Number(
+            document
+            .getElementById("friendRent")
+            .value
+        );
+
+    const available =
+        document
+        .getElementById("friendAvailable")
+        .checked;
+
+    const imageFile =
+        document
+        .getElementById("friendImage")
+        .files[0];
+
+    const message =
+        document
+        .getElementById("friendMessage");
+
+    if(!name){
+
+        message.innerHTML = `
+            <div class="message">
+                ❌ Friend name দাও।
+            </div>
+        `;
+
+        return;
+    }
+
+    if(!Number.isFinite(rent) || rent < 0){
+
+        message.innerHTML = `
+            <div class="message">
+                ❌ Valid daily rent দাও।
+            </div>
+        `;
+
+        return;
+    }
+
+    if(!imageFile){
+
+        message.innerHTML = `
+            <div class="message">
+                ❌ Friend-এর photo select করো।
+            </div>
+        `;
+
+        return;
+    }
+
+    message.innerHTML = `
+        <div class="message">
+            ⏳ Uploading...
+        </div>
+    `;
+
+    try{
+
+        const extension =
+            imageFile.name
+            .split(".")
+            .pop()
+            .toLowerCase();
+
+        const fileName =
+            Date.now() +
+            "-" +
+            Math.random()
+            .toString(36)
+            .substring(2) +
+            "." +
+            extension;
+
+        const filePath =
+            fileName;
+
+        const { error:uploadError } =
+            await supabaseClient
+            .storage
+            .from("friend-images")
+            .upload(
+                filePath,
+                imageFile,
+                {
+                    cacheControl:"3600",
+                    upsert:false
+                }
+            );
+
+        if(uploadError){
+
+            throw uploadError;
+
+        }
+
+        const { data:publicData } =
+            supabaseClient
+            .storage
+            .from("friend-images")
+            .getPublicUrl(filePath);
+
+        const imageUrl =
+            publicData.publicUrl;
+
+        const { error:insertError } =
+            await supabaseClient
+            .from("friends")
+            .insert([{
+
+                name:name,
+                daily_rent:rent,
+                description:description,
+                image_url:imageUrl,
+                available:available
+
+            }]);
+
+        if(insertError){
+
+            throw insertError;
+
+        }
+
+        message.innerHTML = `
+            <div class="message">
+                ✅ Friend successfully added!
+            </div>
+        `;
+
+        document
+            .getElementById("friendName")
+            .value = "";
+
+        document
+            .getElementById("friendDescription")
+            .value = "";
+
+        document
+            .getElementById("friendRent")
+            .value = "";
+
+        document
+            .getElementById("friendImage")
+            .value = "";
+
+        document
+            .getElementById("imagePreview")
+            .style
+            .display = "none";
+
+        loadFriends();
+
+    }catch(error){
+
+        console.error(
+            "Add friend error:",
+            error
+        );
+
+        message.innerHTML = `
+            <div class="message">
+                ❌
+                ${escapeHTML(
+                    error.message ||
+                    "Something went wrong"
+                )}
+            </div>
+        `;
+
+    }
+
+}
+
+
+
+/* =========================
+   LOAD FRIENDS
+========================= */
+
+async function loadFriends(){
+
+    const container =
+        document
+        .getElementById("friendsList");
+
+    container.innerHTML =
+        "Loading...";
+
+    const { data,error } =
+        await supabaseClient
+        .from("friends")
+        .select("*")
+        .order(
+            "id",
+            {
+                ascending:false
+            }
+        );
+
+    if(error){
+
+        console.error(error);
+
+        container.innerHTML = `
+            <div class="message">
+                ❌ Friends load হয়নি:
+                ${escapeHTML(error.message)}
+            </div>
+        `;
+
+        return;
+    }
+
+    if(!data || data.length === 0){
+
+        container.innerHTML = `
+            <div class="message">
+                এখনো কোনো Friend add করা হয়নি।
+            </div>
+        `;
+
+        return;
+    }
+
+    let html =
+        `<div class="grid">`;
+
+    data.forEach(friend => {
+
+        html += `
+
+        <div class="friend">
+
+            ${
+                friend.image_url
+
+                ?
+
+                `<img
+                    src="${escapeAttribute(
+                        friend.image_url
+                    )}"
+                    alt=""
+                >`
+
+                :
+
+                `<div style="
+                    height:220px;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    background:#111;
+                ">
+                    📷 No Image
+                </div>`
+
+            }
+
+            <div class="friend-content">
+
+                <h3>
+                    ${escapeHTML(
+                        friend.name || ""
+                    )}
+                </h3>
+
+                <div class="price">
+                    ₹${Number(
+                        friend.daily_rent || 0
+                    ).toLocaleString("en-IN")}/day
+                </div>
+
+                <p>
+                    ${escapeHTML(
+                        friend.description || ""
+                    )}
+                </p>
+
+                <p
+                    class="${
+                        friend.available
+                        ? "available"
+                        : "unavailable"
+                    }"
+                >
+                    ${
+                        friend.available
+                        ? "🟢 Available"
+                        : "🔴 Unavailable"
+                    }
+                </p>
+
+                <button
+                    class="secondary"
+                    onclick="
+                        toggleAvailability(
+                            ${friend.id},
+                            ${friend.available}
+                        )
+                    "
+                >
+                    ${
+                        friend.available
+                        ? "Make Unavailable"
+                        : "Make Available"
+                    }
+                </button>
+
+                <button
+                    class="danger"
+                    onclick="
+                        deleteFriend(
+                            ${friend.id}
+                        )
+                    "
+                    style="margin-top:8px;"
+                >
+                    🗑️ Delete
+                </button>
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+    html +=
+        `</div>`;
+
+    container.innerHTML =
+        html;
+
+}
+
+
+
+/* =========================
+   TOGGLE AVAILABILITY
+========================= */
+
+async function toggleAvailability(
+    id,
+    current
+){
+
+    const { error } =
+        await supabaseClient
+        .from("friends")
+        .update({
+
+            available:!current
+
+        })
+        .eq(
+            "id",
+            id
+        );
+
+    if(error){
+
+        alert(
+            "Update failed: " +
+            error.message
+        );
+
+        return;
+    }
+
+    loadFriends();
+
+}
+
+
+
+/* =========================
+   DELETE FRIEND
+========================= */
+
+async function deleteFriend(id){
+
+    const yes =
+        confirm(
+            "এই Friend-কে delete করতে চাও?"
+        );
+
+    if(!yes){
+
+        return;
+
+    }
+
+    const { error } =
+        await supabaseClient
+        .from("friends")
+        .delete()
+        .eq(
+            "id",
+            id
+        );
+
+    if(error){
+
+        alert(
+            "Delete failed: " +
+            error.message
+        );
+
+        return;
+    }
+
+    loadFriends();
+
+}
+
+
+
+/* =========================
+   LOAD ORDERS
+========================= */
+
+async function loadOrders(){
+
+    const container =
+        document
+        .getElementById("ordersList");
+
+    const count =
+        document
+        .getElementById("orderCount");
+
+    container.innerHTML =
+        "Loading orders...";
+
+    count.innerText =
+        "Checking orders...";
+
+    const { data,error } =
+        await supabaseClient
+        .from("orders")
+        .select(`
+            id,
+            created_at,
+            friend_id,
+            customer_name,
+            address,
+            contact,
+            relationship,
+            puja_day,
+            delivery_time,
+            rent,
+            status
+        `)
+        .order(
+            "created_at",
+            {
+                ascending:false
+            }
+        );
+
+    if(error){
+
+        console.error(
+            "Order load error:",
+            error
+        );
+
+        count.innerText =
+            "Orders unavailable";
+
+        container.innerHTML = `
+            <div class="message">
+
+                ❌ Orders load হয়নি.
+
+                <br><br>
+
+                ${escapeHTML(
+                    error.message
+                )}
+
+            </div>
+        `;
+
+        return;
+    }
+
+    if(!data || data.length === 0){
+
+        count.innerText =
+            "0 Orders";
+
+        container.innerHTML = `
+            <div class="message">
+                এখনো কোনো order নেই।
+            </div>
+        `;
+
+        return;
+    }
+
+    count.innerText =
+        `${data.length} Order${
+            data.length === 1 ? "" : "s"
+        }`;
+
+
+
+    /* =========================
+       GET FRIEND NAMES
+    ========================= */
+
+    const friendIds =
+        [
+            ...new Set(
+
+                data
+                .map(
+                    order =>
+                        order.friend_id
+                )
+                .filter(Boolean)
+
+            )
+        ];
+
+    let friendsMap = {};
+
+    if(friendIds.length > 0){
+
+        const { data:friends,error:friendError } =
+            await supabaseClient
+            .from("friends")
+            .select("id,name")
+            .in(
+                "id",
+                friendIds
+            );
+
+        if(friendError){
+
+            console.error(
+                "Friend lookup error:",
+                friendError
+            );
+
+        }
+
+        if(friends){
+
+            friends.forEach(friend => {
+
+                friendsMap[
+                    friend.id
+                ] =
+                    friend.name;
+
+            });
+
+        }
+
+    }
+
+
+
+    /* =========================
+       CREATE ORDER LIST
+    ========================= */
+
+    let html = "";
+
+    data.forEach(order => {
+
+        const date =
+            order.created_at
+            ?
+            new Date(
+                order.created_at
+            ).toLocaleString(
+                "en-IN"
+            )
+            :
+            "";
+
+        const email =
+            order.contact &&
+            order.contact.trim()
+            ?
+            order.contact
+            :
+            "Not provided";
+
+        const relationship =
+            order.relationship &&
+            order.relationship.trim()
+            ?
+            order.relationship
+            :
+            "Not provided";
+
+        const status =
+            order.status &&
+            order.status.trim()
+            ?
+            order.status
+            :
+            "placed";
+
+
+
+        html += `
+
+        <div class="order">
+
+            <div class="order-row">
+
+                🆔
+
+                <strong>
+                    Order #${escapeHTML(
+                        order.id
+                    )}
+                </strong>
+
+            </div>
+
+
+            <div class="order-divider"></div>
+
+
+            <div class="order-row">
+
+                👤
+
+                <strong>
+                    Customer:
+                </strong>
+
+                ${escapeHTML(
+                    order.customer_name || ""
+                )}
+
+            </div>
+
+
+            <div class="order-row">
+
+                📍
+
+                <strong>
+                    Address:
+                </strong>
+
+                ${escapeHTML(
+                    order.address || ""
+                )}
+
+            </div>
+
+
+            <div class="order-contact">
+
+                📧
+
+                <strong>
+                    Email:
+                </strong>
+
+                ${escapeHTML(
+                    email
+                )}
+
+                <br><br>
+
+                🤝
+
+                <strong>
+                    Relationship:
+                </strong>
+
+                ${escapeHTML(
+                    relationship
+                )}
+
+            </div>
+
+
+            <div class="order-divider"></div>
+
+
+            <div class="order-row">
+
+                🧑‍🤝‍🧑
+
+                <strong>
+                    Friend:
+                </strong>
+
+                ${escapeHTML(
+                    friendsMap[
+                        order.friend_id
+                    ]
+                    ||
+                    "Unknown"
+                )}
+
+            </div>
+
+
+            <div class="order-row">
+
+                📅
+
+                <strong>
+                    Pujo Day:
+                </strong>
+
+                ${escapeHTML(
+                    order.puja_day || ""
+                )}
+
+            </div>
+
+
+            <div class="order-row">
+
+                🕐
+
+                <strong>
+                    Delivery:
+                </strong>
+
+                ${escapeHTML(
+                    order.delivery_time || ""
+                )}
+
+            </div>
+
+
+            <div class="order-row">
+
+                💰
+
+                <strong>
+                    Rent:
+                </strong>
+
+                ₹${Number(
+                    order.rent || 0
+                ).toLocaleString("en-IN")}
+
+            </div>
+
+
+            <div class="order-row">
+
+                📦
+
+                <strong>
+                    Status:
+                </strong>
+
+                <span class="status">
+
+                    ${escapeHTML(
+                        status
+                    )}
+
+                </span>
+
+            </div>
+
+
+            <div class="order-row">
+
+                🕒
+
+                <strong>
+                    Ordered:
+                </strong>
+
+                ${escapeHTML(
+                    date
+                )}
+
+            </div>
+
+
+            <!-- DELETE ORDER -->
+
+            <div class="order-actions">
+
+                <button
+                    class="delete-order"
+                    onclick="deleteOrder(${order.id})"
+                >
+                    🗑️ Delete Order
+                </button>
+
+            </div>
+
+
+        </div>
+
+        `;
+
+    });
+
+    container.innerHTML =
+        html;
+
+}
+
+
+
+/* =========================
+   DELETE ORDER
+========================= */
+
+async function deleteOrder(id){
+
+    const yes =
+        confirm(
+            "⚠️ এই Order-টি permanently delete করতে চাও?\n\nDelete করার পর এটি আর ফিরিয়ে আনা যাবে না।"
+        );
+
+    if(!yes){
+
+        return;
+
+    }
+
+    const { error } =
+        await supabaseClient
+        .from("orders")
+        .delete()
+        .eq(
+            "id",
+            id
+        );
+
+    if(error){
+
+        console.error(
+            "Delete order error:",
+            error
+        );
+
+        alert(
+            "❌ Order delete হয়নি:\n\n" +
+            error.message
+        );
+
+        return;
+    }
+
+    alert(
+        "✅ Order successfully deleted."
+    );
+
+    loadOrders();
+
+}
+
+
+
+/* =========================
+   SECURITY HELPERS
+========================= */
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+function escapeAttribute(value){
+
+    return escapeHTML(value);
+
+}
+
+
+
+/* =========================
+   AUTH STATE CHANGE
+========================= */
+
+supabaseClient
+.auth
+.onAuthStateChange(
+    (event, session) => {
+
+        if(session){
+
+            showDashboard();
+
+        }else{
+
+            document
+                .getElementById("dashboard")
+                .classList
+                .add("hidden");
+
+            document
+                .getElementById("loginPage")
+                .classList
+                .remove("hidden");
+
+        }
+
+    }
+);
+
+
+
+/* =========================
+   START
+========================= */
+
+checkLogin();
+
+</script>
+
+</body>
+</html>

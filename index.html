@@ -1,0 +1,2079 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>পাগলা খাবি কি ঝাঁঝে মরে যাবি</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#08080d;
+    color:white;
+    overflow-x:hidden;
+}
+
+/* =========================
+   INTRO
+========================= */
+
+.intro{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+
+    background:
+    radial-gradient(circle at center,
+    #54194e 0%,
+    #1b1025 45%,
+    #050509 100%);
+
+    overflow:hidden;
+}
+
+.intro-content{
+    padding:25px;
+    opacity:0;
+    transform:scale(.4) rotate(-10deg);
+}
+
+.intro.started .intro-content{
+    animation:funnyEntrance 1.4s
+    cubic-bezier(.68,-0.55,.27,1.55)
+    forwards;
+}
+
+.emoji{
+    font-size:55px;
+    margin-bottom:20px;
+    animation:bounce 1s infinite alternate;
+}
+
+.intro-title{
+    font-size:clamp(32px,9vw,70px);
+    line-height:1.2;
+    font-weight:900;
+
+    background:
+    linear-gradient(
+        90deg,
+        #ffd166,
+        #ff7b7b,
+        #ff4ecd,
+        #ffd166
+    );
+
+    background-size:300%;
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    animation:gradientMove 2s linear infinite;
+}
+
+.intro-subtitle{
+    margin-top:15px;
+    font-size:15px;
+    color:#ddd;
+    opacity:0;
+}
+
+.intro.started .intro-subtitle{
+    animation:fadeUp 1s ease 1s forwards;
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
+#enterBtn{
+    position:absolute;
+    bottom:70px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    padding:16px 30px;
+
+    border:none;
+    border-radius:40px;
+
+    background:white;
+    color:#111;
+
+    font-size:16px;
+    font-weight:800;
+
+    cursor:pointer;
+
+    z-index:10000;
+
+    box-shadow:
+    0 10px 35px rgba(0,0,0,.45);
+
+    animation:buttonPulse 1.2s infinite;
+}
+
+#enterBtn:active{
+    transform:translateX(-50%) scale(.94);
+}
+
+
+/* =========================
+   EMOJIS
+========================= */
+
+.spark{
+    position:absolute;
+    font-size:22px;
+    opacity:.6;
+    pointer-events:none;
+}
+
+.spark.one{
+    top:18%;
+    left:12%;
+}
+
+.spark.two{
+    top:28%;
+    right:12%;
+}
+
+.spark.three{
+    bottom:20%;
+    left:22%;
+}
+
+.spark.four{
+    bottom:25%;
+    right:22%;
+}
+
+.intro.started .spark{
+    animation:float 3s infinite ease-in-out;
+}
+
+
+/* =========================
+   MAIN SITE
+========================= */
+
+.main-site{
+    min-height:100vh;
+    opacity:0;
+    visibility:hidden;
+}
+
+.main-site.show{
+    visibility:visible;
+    animation:siteAppear 1s ease forwards;
+}
+
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+
+    padding:16px 18px;
+
+    background:rgba(12,12,18,.88);
+
+    backdrop-filter:blur(15px);
+
+    border-bottom:
+    1px solid rgba(255,255,255,.08);
+}
+
+.logo{
+    font-size:20px;
+    font-weight:800;
+}
+
+.tagline{
+    font-size:11px;
+    color:#aaa;
+    margin-top:4px;
+}
+
+.hero{
+    padding:35px 18px 25px;
+    text-align:center;
+}
+
+.hero h2{
+    font-size:30px;
+}
+
+.hero p{
+    color:#aaa;
+    margin-top:10px;
+}
+
+.offer{
+    margin:20px auto;
+    max-width:430px;
+
+    padding:18px;
+
+    border-radius:20px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #5b174f,
+        #241236
+    );
+
+    border:1px solid rgba(255,255,255,.12);
+
+    box-shadow:
+    0 15px 40px rgba(0,0,0,.35);
+}
+
+.offer strong{
+    display:block;
+    font-size:24px;
+}
+
+.offer span{
+    display:block;
+    margin-top:7px;
+    color:#ffd6ed;
+}
+
+
+/* =========================
+   PRODUCTS
+========================= */
+
+.products{
+    padding:10px 16px 40px;
+}
+
+.products h3{
+    margin-bottom:15px;
+}
+
+.product-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.product{
+    background:#15151c;
+
+    border:1px solid rgba(255,255,255,.07);
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.2);
+}
+
+.product-image{
+    height:180px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:
+    linear-gradient(
+        135deg,
+        #29293a,
+        #171722
+    );
+
+    font-size:50px;
+
+    overflow:hidden;
+}
+
+.product-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.product-info{
+    padding:12px;
+}
+
+.product-name{
+    font-weight:700;
+    font-size:16px;
+}
+
+.description{
+    margin-top:6px;
+    color:#999;
+    font-size:12px;
+    line-height:1.4;
+}
+
+.price{
+    margin-top:8px;
+    color:#ffd166;
+    font-weight:700;
+}
+
+.rent-btn{
+    width:100%;
+    margin-top:10px;
+
+    border:none;
+    border-radius:12px;
+
+    padding:11px;
+
+    background:white;
+    color:#111;
+
+    font-weight:700;
+
+    cursor:pointer;
+}
+
+.rent-btn:active{
+    transform:scale(.97);
+}
+
+
+/* =========================
+   CONTACT TEXT
+========================= */
+
+.contact-text{
+    text-align:center;
+    margin-top:10px;
+    color:#777;
+    font-size:10px;
+}
+
+
+/* =========================
+   LOADING
+========================= */
+
+.loading{
+    grid-column:1/-1;
+
+    text-align:center;
+
+    padding:40px 20px;
+
+    color:#aaa;
+
+    font-size:15px;
+}
+
+
+/* =========================
+   BOOKING MODAL
+========================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+
+    z-index:5000;
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:15px;
+
+    background:rgba(0,0,0,.78);
+
+    backdrop-filter:blur(8px);
+}
+
+.modal.show{
+    display:flex;
+}
+
+.booking-box{
+    width:100%;
+    max-width:480px;
+    max-height:92vh;
+
+    overflow-y:auto;
+
+    background:
+    linear-gradient(
+        145deg,
+        #191522,
+        #0f1017
+    );
+
+    border:1px solid rgba(255,255,255,.12);
+
+    border-radius:24px;
+
+    padding:22px;
+
+    box-shadow:
+    0 25px 80px rgba(0,0,0,.65);
+
+    animation:modalIn .3s ease;
+}
+
+.booking-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:18px;
+}
+
+.booking-top h2{
+    font-size:22px;
+}
+
+.close-btn{
+    width:36px;
+    height:36px;
+
+    border:none;
+    border-radius:50%;
+
+    background:#292934;
+    color:white;
+
+    font-size:20px;
+
+    cursor:pointer;
+}
+
+.selected-friend{
+    display:flex;
+    gap:12px;
+    align-items:center;
+
+    padding:12px;
+
+    background:#22212b;
+
+    border-radius:15px;
+
+    margin-bottom:18px;
+}
+
+.selected-friend-image{
+    width:65px;
+    height:65px;
+
+    border-radius:12px;
+
+    overflow:hidden;
+
+    background:#333;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:30px;
+}
+
+.selected-friend-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.selected-friend-name{
+    font-weight:800;
+    font-size:17px;
+}
+
+.selected-friend-price{
+    margin-top:5px;
+    color:#ffd166;
+    font-size:13px;
+}
+
+.discount-box{
+    margin:15px 0;
+
+    padding:13px;
+
+    border-radius:15px;
+
+    background:linear-gradient(
+        135deg,
+        #49204b,
+        #251832
+    );
+
+    text-align:center;
+}
+
+.discount-box strong{
+    display:block;
+    color:#ffd166;
+    font-size:19px;
+}
+
+.discount-box span{
+    display:block;
+    margin-top:4px;
+    color:#ffcfe9;
+    font-size:12px;
+}
+
+.form-group{
+    margin-top:14px;
+}
+
+.form-group label{
+    display:block;
+
+    margin-bottom:7px;
+
+    font-size:13px;
+    color:#ddd;
+    font-weight:700;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+    width:100%;
+
+    border:1px solid #353541;
+
+    border-radius:12px;
+
+    padding:13px;
+
+    background:#111119;
+
+    color:white;
+
+    font-size:14px;
+
+    outline:none;
+}
+
+.form-group textarea{
+    min-height:85px;
+    resize:vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus{
+    border-color:#ff4ecd;
+}
+
+.radio-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:8px;
+}
+
+.radio-option{
+    position:relative;
+}
+
+.radio-option input{
+    position:absolute;
+    opacity:0;
+}
+
+.radio-option label{
+    display:block;
+
+    padding:12px 8px;
+
+    text-align:center;
+
+    border:1px solid #353541;
+
+    border-radius:12px;
+
+    background:#111119;
+
+    cursor:pointer;
+
+    margin:0;
+
+    font-size:13px;
+}
+
+.radio-option input:checked + label{
+    background:#52204f;
+    border-color:#ff4ecd;
+    color:white;
+}
+
+.total-box{
+    margin-top:18px;
+
+    padding:15px;
+
+    border-radius:15px;
+
+    background:#101018;
+
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.total-row{
+    display:flex;
+    justify-content:space-between;
+
+    margin-top:7px;
+
+    font-size:14px;
+}
+
+.total-row:first-child{
+    margin-top:0;
+}
+
+.old-price{
+    color:#888;
+    text-decoration:line-through;
+}
+
+.final-price{
+    color:#ffd166;
+    font-size:20px;
+    font-weight:900;
+}
+
+.place-order-btn{
+    width:100%;
+
+    margin-top:16px;
+
+    padding:15px;
+
+    border:none;
+    border-radius:14px;
+
+    background:
+    linear-gradient(
+        90deg,
+        #ff4ecd,
+        #ff7b7b
+    );
+
+    color:white;
+
+    font-size:16px;
+    font-weight:900;
+
+    cursor:pointer;
+
+    box-shadow:
+    0 10px 30px rgba(255,78,205,.2);
+}
+
+.place-order-btn:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+}
+
+
+/* =========================
+   SUCCESS
+========================= */
+
+.success-screen{
+    text-align:center;
+
+    padding:20px 5px 10px;
+}
+
+.success-emoji{
+    font-size:65px;
+
+    animation:bounce 1s infinite alternate;
+}
+
+.success-screen h2{
+    margin-top:15px;
+
+    font-size:28px;
+
+    color:#ffd166;
+}
+
+.success-screen p{
+    margin-top:10px;
+
+    color:#bbb;
+
+    line-height:1.6;
+}
+
+.done-btn{
+    width:100%;
+
+    margin-top:18px;
+
+    padding:13px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:white;
+
+    color:#111;
+
+    font-weight:800;
+
+    cursor:pointer;
+}
+
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes funnyEntrance{
+
+    0%{
+        opacity:0;
+        transform:scale(.3) rotate(-15deg);
+    }
+
+    60%{
+        opacity:1;
+        transform:scale(1.12) rotate(4deg);
+    }
+
+    100%{
+        opacity:1;
+        transform:scale(1) rotate(0);
+    }
+}
+
+@keyframes bounce{
+
+    from{
+        transform:translateY(0) rotate(-8deg);
+    }
+
+    to{
+        transform:translateY(-15px) rotate(8deg);
+    }
+}
+
+@keyframes gradientMove{
+
+    from{
+        background-position:0%;
+    }
+
+    to{
+        background-position:300%;
+    }
+}
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes float{
+
+    0%,100%{
+        transform:translateY(0) rotate(0);
+        opacity:.5;
+    }
+
+    50%{
+        transform:translateY(-30px) rotate(20deg);
+        opacity:1;
+    }
+}
+
+@keyframes buttonPulse{
+
+    0%,100%{
+        transform:translateX(-50%) scale(1);
+    }
+
+    50%{
+        transform:translateX(-50%) scale(1.06);
+    }
+}
+
+@keyframes siteAppear{
+
+    from{
+        opacity:0;
+        transform:scale(1.03);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+@keyframes modalIn{
+
+    from{
+        opacity:0;
+        transform:translateY(30px) scale(.95);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+}
+
+
+/* =========================
+   DESKTOP
+========================= */
+
+@media(min-width:700px){
+
+    .product-grid{
+        grid-template-columns:repeat(4,1fr);
+    }
+
+    .products,
+    .hero{
+        max-width:1100px;
+        margin:auto;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     AUDIO
+========================= -->
+
+<audio id="introAudio" preload="auto">
+    <source src="audio/intro.mp3" type="audio/mpeg">
+</audio>
+
+
+<!-- =========================
+     INTRO
+========================= -->
+
+<div class="intro" id="intro">
+
+    <div class="spark one">✨</div>
+    <div class="spark two">🪔</div>
+    <div class="spark three">😂</div>
+    <div class="spark four">🎉</div>
+
+    <button
+        id="enterBtn"
+        onclick="startIntro()">
+
+        🔊 TAP TO ENTER
+
+    </button>
+
+    <div class="intro-content">
+
+        <div class="emoji">
+            😂🕺
+        </div>
+
+        <div class="intro-title">
+
+            পাগলা খাবি কি<br>
+            ঝাঁঝে মরে যাবি
+
+        </div>
+
+        <div class="intro-subtitle">
+
+            Pujo আসছে... প্রস্তুত তো? 😎
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     MAIN SITE
+========================= -->
+
+<div class="main-site" id="mainSite">
+
+    <header>
+
+        <div class="logo">
+            পাগলা খাবি কি ঝাঁঝে মরে যাবি
+        </div>
+
+        <div class="tagline">
+            Pujo Special Rental Store
+        </div>
+
+    </header>
+
+
+    <section class="hero">
+
+        <h2>
+            Pujo-তে সঙ্গী দরকার? 😎
+        </h2>
+
+        <p>
+            পছন্দের মানুষটি বেছে নাও!
+        </p>
+
+        <div class="offer">
+
+            <strong>
+                🔥 ORDER NOW & GET 70% OFF
+            </strong>
+
+            <span>
+                🌹 Free Rose on Delivery
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <section class="products">
+
+        <h3>
+            🔥 Popular Choices
+        </h3>
+
+        <div
+            class="product-grid"
+            id="productGrid">
+
+            <div class="loading">
+                ⏳ Friends loading...
+            </div>
+
+        </div>
+
+
+        <p class="contact-text">
+            want to stick you here? contact email id- sskm9909@gmail.com
+        </p>
+
+    </section>
+
+</div>
+
+
+<!-- =========================
+     BOOKING MODAL
+========================= -->
+
+<div
+    class="modal"
+    id="bookingModal">
+
+    <div class="booking-box" id="bookingBox">
+
+        <div class="booking-top">
+
+            <h2>
+                🛒 Book Now
+            </h2>
+
+            <button
+                class="close-btn"
+                onclick="closeBooking()">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <!-- SELECTED FRIEND -->
+
+        <div
+            class="selected-friend"
+            id="selectedFriend">
+
+        </div>
+
+
+        <!-- DISCOUNT -->
+
+        <div class="discount-box">
+
+            <strong>
+                🔥 70% OFF
+            </strong>
+
+            <span>
+                🌹 Delivery-তে Rose FREE
+            </span>
+
+        </div>
+
+
+        <!-- FORM -->
+
+        <form
+            id="bookingForm"
+            onsubmit="placeOrder(event)">
+
+
+            <!-- PUJA DAY -->
+
+            <div class="form-group">
+
+                <label>
+                    🎉 Pujo Day
+                </label>
+
+                <div class="radio-grid">
+
+                    <div class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="puja_day"
+                            id="day6"
+                            value="ষষ্ঠী"
+                            required>
+
+                        <label for="day6">
+                            ষষ্ঠী
+                        </label>
+
+                    </div>
+
+
+                    <div class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="puja_day"
+                            id="day7"
+                            value="সপ্তমী">
+
+                        <label for="day7">
+                            সপ্তমী
+                        </label>
+
+                    </div>
+
+
+                    <div class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="puja_day"
+                            id="day8"
+                            value="অষ্টমী">
+
+                        <label for="day8">
+                            অষ্টমী
+                        </label>
+
+                    </div>
+
+
+                    <div class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="puja_day"
+                            id="day9"
+                            value="নবমী">
+
+                        <label for="day9">
+                            নবমী
+                        </label>
+
+                    </div>
+
+
+                    <div class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="puja_day"
+                            id="day10"
+                            value="দশমী">
+
+                        <label for="day10">
+                            দশমী
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- DELIVERY TIME -->
+
+            <div class="form-group">
+
+                <label>
+                    🕙 Delivery Time
+                </label>
+
+                <div class="radio-grid">
+
+                    <div class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="delivery_time"
+                            id="morning"
+                            value="সকাল 10টা"
+                            required>
+
+                        <label for="morning">
+                            🌞 সকাল 10টা
+                        </label>
+
+                    </div>
+
+
+                    <div class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="delivery_time"
+                            id="evening"
+                            value="সন্ধ্যা 7টা">
+
+                        <label for="evening">
+                            🌙 সন্ধ্যা 7টা
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CUSTOMER NAME -->
+
+            <div class="form-group">
+
+                <label for="customerName">
+                    👤 আপনার নাম
+                </label>
+
+                <input
+                    type="text"
+                    id="customerName"
+                    placeholder="নাম লিখুন"
+                    required
+                    maxlength="100">
+
+            </div>
+
+
+            <!-- ADDRESS -->
+
+            <div class="form-group">
+
+                <label for="customerAddress">
+                    📍 Delivery Address
+                </label>
+
+                <textarea
+                    id="customerAddress"
+                    placeholder="সম্পূর্ণ address লিখুন"
+                    required
+                    maxlength="500"></textarea>
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label for="customerContact">
+                    📧 Email ID (optional)
+                </label>
+
+                <input
+                    type="email"
+                    id="customerContact"
+                    placeholder="Email ID লিখুন"
+                    maxlength="100">
+
+            </div>
+
+
+            <!-- RELATIONSHIP -->
+
+            <div class="form-group">
+
+                <label for="relationship">
+                    ❤️ What kind of relationship do you want with her/him if you want to hang out together?
+                </label>
+
+                <select
+                    id="relationship"
+                    required>
+
+                    <option
+                        value=""
+                        disabled
+                        selected>
+
+                        Select relationship
+
+                    </option>
+
+                    <option value="Boyfriend">
+                        Boyfriend
+                    </option>
+
+                    <option value="Girlfriend">
+                        Girlfriend
+                    </option>
+
+                    <option value="Normal Friend">
+                        Normal Friend
+                    </option>
+
+                    <option value="Best Friend">
+                        Best Friend
+                    </option>
+
+                    <option value="Friend">
+                        Friend
+                    </option>
+
+                    <option value="Brother">
+                        Brother
+                    </option>
+
+                    <option value="Sister">
+                        Sister
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- TOTAL -->
+
+            <div
+                class="total-box"
+                id="totalBox">
+
+                <div class="total-row">
+
+                    <span>
+                        Original Rent
+                    </span>
+
+                    <span
+                        id="originalPrice"
+                        class="old-price">
+
+                        ₹0
+
+                    </span>
+
+                </div>
+
+
+                <div class="total-row">
+
+                    <span>
+                        Discount
+                    </span>
+
+                    <span>
+                        -70%
+                    </span>
+
+                </div>
+
+
+                <div class="total-row">
+
+                    <span>
+                        🌹 Rose
+                    </span>
+
+                    <span>
+                        FREE
+                    </span>
+
+                </div>
+
+
+                <div class="total-row">
+
+                    <strong>
+                        Payable
+                    </strong>
+
+                    <strong
+                        id="finalPrice"
+                        class="final-price">
+
+                        ₹0
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- PLACE ORDER -->
+
+            <button
+                type="submit"
+                class="place-order-btn"
+                id="placeOrderBtn">
+
+                🛒 PLACE ORDER
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     SUPABASE
+========================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+    "https://quxcffxedbtalomxwykn.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_38W9IV6gs6r7D_jWuS6okw_hG-Aei-F";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
+
+
+console.log("Supabase connected!");
+
+
+
+/* =========================
+   BOOKING VARIABLES
+========================= */
+
+let selectedFriend = null;
+
+
+
+/* =========================
+   INTRO
+========================= */
+
+function startIntro(){
+
+    const audio =
+        document.getElementById("introAudio");
+
+    const intro =
+        document.getElementById("intro");
+
+    const button =
+        document.getElementById("enterBtn");
+
+    const mainSite =
+        document.getElementById("mainSite");
+
+
+    audio.currentTime = 0;
+
+
+    audio.play()
+    .then(function(){
+
+        console.log("Audio started");
+
+    })
+    .catch(function(error){
+
+        console.log("Audio error:", error);
+
+    });
+
+
+    intro.classList.add("started");
+
+    button.style.display = "none";
+
+
+    setTimeout(function(){
+
+        intro.style.opacity = "0";
+        intro.style.pointerEvents = "none";
+
+        mainSite.classList.add("show");
+
+    },4500);
+
+}
+
+
+
+/* =========================
+   LOAD FRIENDS
+========================= */
+
+async function loadFriends(){
+
+    const productGrid =
+        document.getElementById("productGrid");
+
+
+    productGrid.innerHTML = `
+        <div class="loading">
+            ⏳ Friends loading...
+        </div>
+    `;
+
+
+    const { data, error } =
+        await supabaseClient
+        .from("friends")
+        .select("*")
+        .eq("available", true)
+        .order("id", { ascending:true });
+
+
+    if(error){
+
+        console.error(
+            "Friends loading error:",
+            error
+        );
+
+
+        productGrid.innerHTML = `
+            <div class="loading">
+                ❌ Friends load হচ্ছে না।<br>
+                Supabase table/check settings দেখো।
+            </div>
+        `;
+
+        return;
+    }
+
+
+    if(!data || data.length === 0){
+
+        productGrid.innerHTML = `
+            <div class="loading">
+                😅 এখনো কোনো friend available নেই।
+            </div>
+        `;
+
+        return;
+    }
+
+
+    productGrid.innerHTML = "";
+
+
+    data.forEach(function(friend){
+
+        const card =
+            document.createElement("div");
+
+        card.className = "product";
+
+
+        let imageHTML = "";
+
+
+        if(friend.image_url){
+
+            imageHTML = `
+                <img
+                    src="${escapeHTML(friend.image_url)}"
+                    alt="${escapeHTML(friend.name)}"
+                    loading="lazy"
+                >
+            `;
+
+        }else{
+
+            imageHTML = "😂";
+
+        }
+
+
+        const description =
+            friend.description
+            ? escapeHTML(friend.description)
+            : "Special Pujo Friend 😎";
+
+
+        card.innerHTML = `
+
+            <div class="product-image">
+
+                ${imageHTML}
+
+            </div>
+
+
+            <div class="product-info">
+
+                <div class="product-name">
+
+                    ${escapeHTML(friend.name)}
+
+                </div>
+
+
+                <div class="description">
+
+                    ${description}
+
+                </div>
+
+
+                <div class="price">
+
+                    ₹${Number(friend.daily_rent).toLocaleString("en-IN")}
+                    / day
+
+                </div>
+
+
+                <button
+                    class="rent-btn"
+                    onclick="rentFriend(${friend.id})">
+
+                    Rent Now
+
+                </button>
+
+            </div>
+
+        `;
+
+
+        productGrid.appendChild(card);
+
+    });
+
+}
+
+
+
+/* =========================
+   HTML SAFETY
+========================= */
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+
+/* =========================
+   OPEN BOOKING
+========================= */
+
+async function rentFriend(friendId){
+
+    console.log(
+        "Selected friend:",
+        friendId
+    );
+
+
+    const { data, error } =
+        await supabaseClient
+        .from("friends")
+        .select("*")
+        .eq("id", friendId)
+        .single();
+
+
+    if(error){
+
+        console.error(
+            "Friend selection error:",
+            error
+        );
+
+        alert(
+            "❌ Friend-এর information পাওয়া যাচ্ছে না।"
+        );
+
+        return;
+    }
+
+
+    selectedFriend = data;
+
+
+    const imageHTML =
+        data.image_url
+        ? `
+            <img
+                src="${escapeHTML(data.image_url)}"
+                alt="${escapeHTML(data.name)}"
+            >
+        `
+        : "😂";
+
+
+    document.getElementById("selectedFriend").innerHTML = `
+
+        <div class="selected-friend-image">
+
+            ${imageHTML}
+
+        </div>
+
+
+        <div>
+
+            <div class="selected-friend-name">
+
+                ${escapeHTML(data.name)}
+
+            </div>
+
+            <div class="selected-friend-price">
+
+                ₹${Number(data.daily_rent).toLocaleString("en-IN")}
+                / day
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    updatePrice();
+
+
+    document.getElementById("bookingModal")
+        .classList.add("show");
+
+
+    document.body.style.overflow = "hidden";
+
+}
+
+
+
+/* =========================
+   CLOSE BOOKING
+========================= */
+
+function closeBooking(){
+
+    document.getElementById("bookingModal")
+        .classList.remove("show");
+
+    document.body.style.overflow = "";
+
+    selectedFriend = null;
+
+}
+
+
+
+/* =========================
+   UPDATE PRICE
+========================= */
+
+function updatePrice(){
+
+    if(!selectedFriend){
+        return;
+    }
+
+
+    const original =
+        Number(selectedFriend.daily_rent);
+
+
+    /*
+       70% OFF
+       তাই customer দেবে 30%
+    */
+
+    const finalPrice =
+        Math.round(original * 0.30);
+
+
+    document.getElementById("originalPrice")
+        .textContent =
+        "₹" +
+        original.toLocaleString("en-IN");
+
+
+    document.getElementById("finalPrice")
+        .textContent =
+        "₹" +
+        finalPrice.toLocaleString("en-IN");
+
+}
+
+
+
+/* =========================
+   PLACE ORDER
+========================= */
+
+async function placeOrder(event){
+
+    event.preventDefault();
+
+
+    if(!selectedFriend){
+
+        alert(
+            "❌ আগে একজন friend select করো।"
+        );
+
+        return;
+    }
+
+
+    const customerName =
+        document.getElementById("customerName")
+        .value
+        .trim();
+
+
+    const address =
+        document.getElementById("customerAddress")
+        .value
+        .trim();
+
+
+    const contact =
+        document.getElementById("customerContact")
+        .value
+        .trim();
+
+
+    const relationship =
+        document.getElementById("relationship")
+        .value;
+
+
+    const pujaDay =
+        document.querySelector(
+            'input[name="puja_day"]:checked'
+        );
+
+
+    const deliveryTime =
+        document.querySelector(
+            'input[name="delivery_time"]:checked'
+        );
+
+
+    if(!customerName){
+
+        alert("নাম লিখুন।");
+        return;
+
+    }
+
+
+    if(!address){
+
+        alert("Address লিখুন।");
+        return;
+
+    }
+
+
+    if(!relationship){
+
+        alert("Relationship select করুন।");
+        return;
+
+    }
+
+
+    if(!pujaDay){
+
+        alert("Pujo day select করুন।");
+        return;
+
+    }
+
+
+    if(!deliveryTime){
+
+        alert("Delivery time select করুন।");
+        return;
+
+    }
+
+
+    const originalRent =
+        Number(selectedFriend.daily_rent);
+
+
+    const finalRent =
+        Math.round(originalRent * 0.30);
+
+
+    const orderButton =
+        document.getElementById("placeOrderBtn");
+
+
+    orderButton.disabled = true;
+
+    orderButton.textContent =
+        "⏳ Placing Order...";
+
+
+    /*
+       ORDER SAVE TO SUPABASE
+
+       এখানে .select().single() রাখা হয়নি।
+       তাই customer-side থেকে order data পড়ার
+       permission প্রয়োজন হবে না।
+    */
+
+    const { error } =
+        await supabaseClient
+        .from("orders")
+        .insert([
+
+            {
+
+                friend_id:
+                    selectedFriend.id,
+
+                customer_name:
+                    customerName,
+
+                address:
+                    address,
+
+                contact:
+                    contact,
+
+                relationship:
+                    relationship,
+
+                puja_day:
+                    pujaDay.value,
+
+                delivery_time:
+                    deliveryTime.value,
+
+                rent:
+                    finalRent,
+
+                status:
+                    "placed"
+
+            }
+
+        ]);
+
+
+    if(error){
+
+        console.error(
+            "Order error:",
+            error
+        );
+
+
+        orderButton.disabled = false;
+
+        orderButton.textContent =
+            "🛒 PLACE ORDER";
+
+
+        alert(
+            "❌ Order place হচ্ছে না!\n\nSupabase orders table-এর INSERT permission check করতে হবে."
+        );
+
+        return;
+    }
+
+
+    console.log(
+        "Order placed successfully"
+    );
+
+
+    showSuccess();
+
+}
+
+
+
+/* =========================
+   SUCCESS SCREEN
+========================= */
+
+function showSuccess(){
+
+    const bookingBox =
+        document.getElementById("bookingBox");
+
+
+    bookingBox.innerHTML = `
+
+        <div class="success-screen">
+
+            <div class="success-emoji">
+                🎉🌹😂
+            </div>
+
+
+            <h2>
+                Order Placed!
+            </h2>
+
+
+            <p>
+                তোমার Pujo booking সফল হয়েছে! 😎
+                <br>
+                Rose delivery-ও FREE 🌹
+            </p>
+
+
+            <button
+                class="done-btn"
+                onclick="finishBooking()">
+
+                ✓ DONE
+
+            </button>
+
+        </div>
+
+    `;
+
+}
+
+
+
+/* =========================
+   FINISH BOOKING
+========================= */
+
+function finishBooking(){
+
+    document.getElementById("bookingModal")
+        .classList.remove("show");
+
+
+    document.body.style.overflow = "";
+
+
+    location.reload();
+
+}
+
+
+
+/* =========================
+   MODAL OUTSIDE CLICK
+========================= */
+
+document.getElementById("bookingModal")
+    .addEventListener(
+        "click",
+        function(event){
+
+            if(event.target === this){
+
+                closeBooking();
+
+            }
+
+        }
+    );
+
+
+
+/* =========================
+   START
+========================= */
+
+loadFriends();
+
+</script>
+
+</body>
+</html>
